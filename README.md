@@ -1,5 +1,8 @@
 # AdvancedRssClient
 
+Проект разрабатывался в Eclipse с использование библиотеки совместимости android-support-v7-appcompat.
+Ссылка на приложение AdvancedRssClient.apk [a link](https://github.com/dr-yand/AdvancedRssClient/blob/master/AdvancedRssClient.apk)
+
 Логин/пароль для авторизации test/test
 
 ![device-2015-04-08-142838.png](https://github.com/dr-yand/AdvancedRssClient/blob/master/.other/device-2015-04-08-142838.png)
