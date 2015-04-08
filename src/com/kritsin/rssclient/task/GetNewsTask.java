@@ -72,7 +72,8 @@ public class GetNewsTask extends AsyncTask<Void, Void, List<News>>{
 	@Override
     protected void onPostExecute(List<News> result) {
         super.onPostExecute(result);    
-        mListener.onResultGetNews(mStatus, result);
+        if(mListener!=null)
+        	mListener.onResultGetNews(mStatus, result);
     }
  
 }

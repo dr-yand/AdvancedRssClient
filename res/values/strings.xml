@@ -2,8 +2,10 @@
 <resources>
 
     <string name="app_name">AdvancedRssClient</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="remove_favorite">Удалить из избранного</string>
+    <string name="add_favorite">Добавить в избранное</string>
+    <string name="account">Аккаунт</string>
+    <string name="signout">Выйти</string>
+    <string name="signin">Войти</string>
 
 </resources>

@@ -1,14 +1,14 @@
 package com.kritsin.rssclient.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import android.text.Html;
-
-public class News {
+public class News  implements Serializable {  
+    private static final long serialVersionUID = 1l;   
+    
 	private int id;
 	private String title, info, url;
-	private Date date;
-	private boolean favorite;
+	private Date date; 
 	
 	public String getInfo() {
 		return info;
@@ -44,11 +44,5 @@ public class News {
 	}
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	public boolean isFavorite() {
-		return favorite;
-	}
-	public void setFavorite(boolean favorite) {
-		this.favorite = favorite;
 	} 
 }

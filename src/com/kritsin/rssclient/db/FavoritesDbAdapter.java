@@ -10,16 +10,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.kritsin.rssclient.entity.News;
 
-public class NewsDbAdapter {
+public class FavoritesDbAdapter {
 	  
-	public void addNews(SQLiteDatabase db, List<News> newsList){
+	public void addFavorite(SQLiteDatabase db, News news){
 		try{
 	    	db.beginTransaction(); 
-	    	for(News news:newsList){
 	    		String date = news.getDate().getTime()+"";
-	    		db.execSQL("insert into " + DbCommonHelper.NEWS_TABLE_NAME + "(title, date, info, url) values(?,?,?,?)", 
-	    				new String[]{news.getTitle(), date, news.getInfo(), news.getUrl() });
-	    	}
+	    		db.execSQL("insert into " + DbCommonHelper.FAVORITES_TABLE_NAME + "(id,title, date, info, url) values(?,?,?,?,?)", 
+	    				new String[]{news.getId()+"", news.getTitle(), date, news.getInfo(), news.getUrl() });
 	    	db.setTransactionSuccessful();
     	} catch (SQLException e) {
     		e.printStackTrace();
@@ -29,40 +27,26 @@ public class NewsDbAdapter {
     	}    
 	}
 	 
-	public void updateFavorite(SQLiteDatabase db, int id, int favorite){
-		try{
-	    	db.beginTransaction(); 
-    		db.execSQL("update " + DbCommonHelper.NEWS_TABLE_NAME + " set favorite=? where id=?", 
-    				new String[]{favorite+"",id+""});
-	    	db.setTransactionSuccessful();
-    	} catch (SQLException e) {
-    		e.printStackTrace();
-    		throw new SQLException();
-    	} finally {
-    	  db.endTransaction();
-    	}    
-	}
-	  
-	public News getNews(SQLiteDatabase db, int id){
+	public News getFavorite(SQLiteDatabase db, String url){
     	News result = null;
-    	String sql =  "select * from "+DbCommonHelper.NEWS_TABLE_NAME +" where id=?";
-        Cursor c = db.rawQuery(sql,new String[]{id+""}); 
+    	String sql =  "select * from "+DbCommonHelper.FAVORITES_TABLE_NAME +" where url=?";
+        Cursor c = db.rawQuery(sql,new String[]{url}); 
         if (c != null) {  
         	if (c.moveToNext()) {
-        		result = getNewsFromCursor(c);
+        		result = getFavoriteFromCursor(c);
         	}
         }
         c.close(); 
 	  return result;
     }
-	
-	public List<News> getNews(SQLiteDatabase db){
+	  
+	public List<News> getFavorites(SQLiteDatabase db){
     	List<News> result = new ArrayList<News>();
-    	String sql =  "select * from "+DbCommonHelper.NEWS_TABLE_NAME +" order by date desc";
+    	String sql =  "select * from "+DbCommonHelper.FAVORITES_TABLE_NAME +" order by date desc";
         Cursor c = db.rawQuery(sql,new String[]{}); 
         if (c != null) {  
         	while (c.moveToNext()) {
-        		News item = getNewsFromCursor(c);
+        		News item = getFavoriteFromCursor(c);
         		result.add(item);
         	}
         }
@@ -71,7 +55,7 @@ public class NewsDbAdapter {
     }
 	 
  
-	private News getNewsFromCursor(Cursor c){
+	private News getFavoriteFromCursor(Cursor c){
 		final int ID = c.getColumnIndex("id");
 		final int TITLE = c.getColumnIndex("title");
     	final int DATE = c.getColumnIndex("date");
@@ -89,11 +73,11 @@ public class NewsDbAdapter {
 		return news;
 	}
 	
-	public void deleteNews(SQLiteDatabase db){ 
+	public void deleteFavorite(SQLiteDatabase db, String url){ 
     	try{
 	    	db.beginTransaction();
-    		db.execSQL("delete from " + DbCommonHelper.NEWS_TABLE_NAME, 
-    				new String[]{});
+    		db.execSQL("delete from " + DbCommonHelper.FAVORITES_TABLE_NAME+" where url=?", 
+    				new String[]{url});
 	    	db.setTransactionSuccessful();
     	} catch (SQLException e) {
     		e.printStackTrace();
